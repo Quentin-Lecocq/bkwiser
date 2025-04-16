@@ -1,4 +1,7 @@
-export const bankrollKeys = {
-  all: ['bankroll'] as const,
-  balance: () => [...bankrollKeys.all, 'balance'] as const,
-};
+import { queryOptions } from '@tanstack/react-query';
+import { fetchBankroll } from './bankroll.api';
+
+export const bankrollQueryOptions = queryOptions({
+  queryKey: ['bankroll'],
+  queryFn: () => fetchBankroll(),
+});

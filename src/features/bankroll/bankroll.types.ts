@@ -1,5 +1,5 @@
 export type Bankroll = {
   id: string;
-  amout: number;
+  amount: number;
   updatedAt: string;
 };
