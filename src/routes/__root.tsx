@@ -11,7 +11,7 @@ function RootComponent() {
     <React.Fragment>
       <div>
         <Link to="/dashboard">Dashboard</Link>
-        <Link to="/bankroll/history">Bankroll</Link>
+        <Link to="/bankroll">Bankroll</Link>
         <Link to="/bets">Bets</Link>
       </div>
       <Outlet />

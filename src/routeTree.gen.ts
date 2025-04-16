@@ -13,14 +13,13 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as StatsImport } from './routes/stats'
 import { Route as DashboardImport } from './routes/dashboard'
+import { Route as BankrollImport } from './routes/bankroll'
 import { Route as IndexImport } from './routes/index'
 import { Route as ResourcesIndexImport } from './routes/resources/index'
 import { Route as BetsIndexImport } from './routes/bets/index'
 import { Route as SettingsProfileImport } from './routes/settings/profile'
 import { Route as BetsNewImport } from './routes/bets/new'
 import { Route as BetsBetIdImport } from './routes/bets/$betId'
-import { Route as BankrollHistoryImport } from './routes/bankroll/history'
-import { Route as BankrollAdjustImport } from './routes/bankroll/adjust'
 import { Route as AuthRegisterImport } from './routes/auth/register'
 import { Route as AuthLoginImport } from './routes/auth/login'
 
@@ -35,6 +34,12 @@ const StatsRoute = StatsImport.update({
 const DashboardRoute = DashboardImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BankrollRoute = BankrollImport.update({
+  id: '/bankroll',
+  path: '/bankroll',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -74,18 +79,6 @@ const BetsBetIdRoute = BetsBetIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const BankrollHistoryRoute = BankrollHistoryImport.update({
-  id: '/bankroll/history',
-  path: '/bankroll/history',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const BankrollAdjustRoute = BankrollAdjustImport.update({
-  id: '/bankroll/adjust',
-  path: '/bankroll/adjust',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const AuthRegisterRoute = AuthRegisterImport.update({
   id: '/auth/register',
   path: '/auth/register',
@@ -107,6 +100,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/bankroll': {
+      id: '/bankroll'
+      path: '/bankroll'
+      fullPath: '/bankroll'
+      preLoaderRoute: typeof BankrollImport
       parentRoute: typeof rootRoute
     }
     '/dashboard': {
@@ -135,20 +135,6 @@ declare module '@tanstack/react-router' {
       path: '/auth/register'
       fullPath: '/auth/register'
       preLoaderRoute: typeof AuthRegisterImport
-      parentRoute: typeof rootRoute
-    }
-    '/bankroll/adjust': {
-      id: '/bankroll/adjust'
-      path: '/bankroll/adjust'
-      fullPath: '/bankroll/adjust'
-      preLoaderRoute: typeof BankrollAdjustImport
-      parentRoute: typeof rootRoute
-    }
-    '/bankroll/history': {
-      id: '/bankroll/history'
-      path: '/bankroll/history'
-      fullPath: '/bankroll/history'
-      preLoaderRoute: typeof BankrollHistoryImport
       parentRoute: typeof rootRoute
     }
     '/bets/$betId': {
@@ -193,12 +179,11 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/bankroll': typeof BankrollRoute
   '/dashboard': typeof DashboardRoute
   '/stats': typeof StatsRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/bankroll/adjust': typeof BankrollAdjustRoute
-  '/bankroll/history': typeof BankrollHistoryRoute
   '/bets/$betId': typeof BetsBetIdRoute
   '/bets/new': typeof BetsNewRoute
   '/settings/profile': typeof SettingsProfileRoute
@@ -208,12 +193,11 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/bankroll': typeof BankrollRoute
   '/dashboard': typeof DashboardRoute
   '/stats': typeof StatsRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/bankroll/adjust': typeof BankrollAdjustRoute
-  '/bankroll/history': typeof BankrollHistoryRoute
   '/bets/$betId': typeof BetsBetIdRoute
   '/bets/new': typeof BetsNewRoute
   '/settings/profile': typeof SettingsProfileRoute
@@ -224,12 +208,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/bankroll': typeof BankrollRoute
   '/dashboard': typeof DashboardRoute
   '/stats': typeof StatsRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/bankroll/adjust': typeof BankrollAdjustRoute
-  '/bankroll/history': typeof BankrollHistoryRoute
   '/bets/$betId': typeof BetsBetIdRoute
   '/bets/new': typeof BetsNewRoute
   '/settings/profile': typeof SettingsProfileRoute
@@ -241,12 +224,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/bankroll'
     | '/dashboard'
     | '/stats'
     | '/auth/login'
     | '/auth/register'
-    | '/bankroll/adjust'
-    | '/bankroll/history'
     | '/bets/$betId'
     | '/bets/new'
     | '/settings/profile'
@@ -255,12 +237,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/bankroll'
     | '/dashboard'
     | '/stats'
     | '/auth/login'
     | '/auth/register'
-    | '/bankroll/adjust'
-    | '/bankroll/history'
     | '/bets/$betId'
     | '/bets/new'
     | '/settings/profile'
@@ -269,12 +250,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/bankroll'
     | '/dashboard'
     | '/stats'
     | '/auth/login'
     | '/auth/register'
-    | '/bankroll/adjust'
-    | '/bankroll/history'
     | '/bets/$betId'
     | '/bets/new'
     | '/settings/profile'
@@ -285,12 +265,11 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BankrollRoute: typeof BankrollRoute
   DashboardRoute: typeof DashboardRoute
   StatsRoute: typeof StatsRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
-  BankrollAdjustRoute: typeof BankrollAdjustRoute
-  BankrollHistoryRoute: typeof BankrollHistoryRoute
   BetsBetIdRoute: typeof BetsBetIdRoute
   BetsNewRoute: typeof BetsNewRoute
   SettingsProfileRoute: typeof SettingsProfileRoute
@@ -300,12 +279,11 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BankrollRoute: BankrollRoute,
   DashboardRoute: DashboardRoute,
   StatsRoute: StatsRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
-  BankrollAdjustRoute: BankrollAdjustRoute,
-  BankrollHistoryRoute: BankrollHistoryRoute,
   BetsBetIdRoute: BetsBetIdRoute,
   BetsNewRoute: BetsNewRoute,
   SettingsProfileRoute: SettingsProfileRoute,
@@ -324,12 +302,11 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/bankroll",
         "/dashboard",
         "/stats",
         "/auth/login",
         "/auth/register",
-        "/bankroll/adjust",
-        "/bankroll/history",
         "/bets/$betId",
         "/bets/new",
         "/settings/profile",
@@ -339,6 +316,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/bankroll": {
+      "filePath": "bankroll.tsx"
     },
     "/dashboard": {
       "filePath": "dashboard.tsx"
@@ -351,12 +331,6 @@ export const routeTree = rootRoute
     },
     "/auth/register": {
       "filePath": "auth/register.tsx"
-    },
-    "/bankroll/adjust": {
-      "filePath": "bankroll/adjust.tsx"
-    },
-    "/bankroll/history": {
-      "filePath": "bankroll/history.tsx"
     },
     "/bets/$betId": {
       "filePath": "bets/$betId.tsx"
