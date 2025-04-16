@@ -1,14 +1,14 @@
 import express from 'express';
 import cors from 'cors';
-import db from './lowdb';
+import { syncDb } from '../db';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 app.get('/bankroll', async (_, res) => {
-  await db.read();
-  res.json({ bankroll: db.data?.bankroll });
+  const data = await syncDb();
+  res.json(data);
 });
 
 app.listen(3001, () => {
