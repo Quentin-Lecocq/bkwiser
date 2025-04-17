@@ -1,5 +1,23 @@
 import { Bet } from './bets.types';
 
+/**
+ * Fetch all bets from the server.
+ * @returns {Promise<Bet[]>} - A promise that resolves to an array of bets.
+ */
+export async function getBets(): Promise<Bet[]> {
+  const res = await fetch('http://localhost:3001/bets');
+  if (!res.ok) {
+    throw new Error('Network response was not ok');
+  }
+  const data = await res.json();
+  return data.bets;
+}
+
+/**
+ * Create a new bet.
+ * @param {Omit<Bet, 'id' | 'netResult' | 'createdAt' | 'updatedAt'>} betData - The data for the new bet.
+ * @returns {Promise<Bet>} - The created bet.
+ */
 export async function createBet(
   betData: Omit<Bet, 'id' | 'netResult' | 'createdAt' | 'updatedAt'>,
 ) {
