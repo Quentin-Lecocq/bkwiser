@@ -1,24 +1,22 @@
 import { useForm } from '@tanstack/react-form';
 import { z } from 'zod';
-import { useAddDepositMutation } from '../bankroll.mutations';
+import { useDepositMutation } from '../bankroll.mutations';
 import { FormEvent } from 'react';
 
 export function DepositForm() {
-  const { mutate: addDeposit } = useAddDepositMutation();
+  const { mutate: addDeposit } = useDepositMutation();
 
   const form = useForm({
     defaultValues: {
-      depositAmount: 0,
+      amount: 0,
     },
     validators: {
       onChange: z.object({
-        depositAmount: z
-          .number()
-          .min(1, 'Deposit amount must be greater than 0'),
+        amount: z.number().min(1, 'Deposit amount must be greater than 0'),
       }),
     },
     onSubmit: async (values) => {
-      const amount = values.value.depositAmount;
+      const { amount } = values.value;
       addDeposit({ amount });
       form.reset();
     },
@@ -32,10 +30,11 @@ export function DepositForm() {
   return (
     <form onSubmit={handleSubmit}>
       <form.Field
-        name="depositAmount"
+        name="amount"
         children={(field) => (
           <>
             <input
+              type="number"
               value={field.state.value}
               onBlur={field.handleBlur}
               onChange={(e) => field.handleChange(Number(e.target.value))}

@@ -11,6 +11,10 @@ interface DatabaseSchema {
     amount: number;
     date: string;
   }[];
+  withdraws: {
+    amount: number;
+    date: string;
+  }[];
 }
 
 const __filename = fileURLToPath(import.meta.url);
@@ -34,6 +38,7 @@ async function initializeDb() {
     const db = new Low<DatabaseSchema>(adapter, {
       bankroll: defaultBankroll,
       deposits: [],
+      withdraws: [],
     });
 
     await db.read();
@@ -41,6 +46,7 @@ async function initializeDb() {
       db.data = {
         bankroll: defaultBankroll,
         deposits: [],
+        withdraws: [],
       };
       await db.write();
       console.log('Database initialized with default values.');
@@ -64,6 +70,7 @@ export async function syncDb() {
   dbInstance.data ||= {
     bankroll: defaultBankroll,
     deposits: [],
+    withdraws: [],
   };
   return dbInstance.data;
 }

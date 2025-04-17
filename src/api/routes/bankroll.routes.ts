@@ -9,7 +9,7 @@ router.get('/', async (_req: Request, res: Response) => {
   res.json(data);
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/deposit', async (req: Request, res: Response) => {
   const { amount } = req.body;
   const data = await syncDb();
 
@@ -32,6 +32,37 @@ router.post('/', async (req: Request, res: Response) => {
   res.status(201).json({
     message: 'Deposit added successfully',
     deposit: newDeposit,
+    bankroll: data.bankroll,
+  });
+});
+
+router.post('/withdraw', async (req: Request, res: Response) => {
+  const { amount } = req.body;
+  const data = await syncDb();
+  const now = new Date();
+
+  if (amount > data.bankroll) {
+    res.status(400).json({
+      message: 'Withdrawal amount exceeds available bankroll',
+    });
+  }
+
+  const newWithdraw = {
+    id: crypto.randomUUID(),
+    amount,
+    date: now.toISOString(),
+  };
+  if (!data.withdraws) {
+    data.withdraws = [];
+  }
+
+  data.withdraws.push(newWithdraw);
+  data.bankroll -= amount;
+  await dbInstance.write();
+
+  res.status(201).json({
+    message: 'Withdrawal added successfully',
+    withdraw: newWithdraw,
     bankroll: data.bankroll,
   });
 });
