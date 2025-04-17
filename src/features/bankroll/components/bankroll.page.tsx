@@ -1,4 +1,5 @@
 import BalanceDisplay from './balance-display';
+import { DepositForm } from './deposit-form';
 
 export default function BankrollPage() {
   return (
@@ -9,6 +10,7 @@ export default function BankrollPage() {
     >
       <h1>Bankroll</h1>
       <BalanceDisplay />
+      <DepositForm />
     </main>
   );
 }

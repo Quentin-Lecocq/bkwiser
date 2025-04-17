@@ -7,6 +7,10 @@ import { defaultBankroll } from './data';
 
 interface DatabaseSchema {
   bankroll: number;
+  deposits: {
+    amount: number;
+    date: string;
+  }[];
 }
 
 const __filename = fileURLToPath(import.meta.url);
@@ -29,11 +33,15 @@ async function initializeDb() {
     const adapter = new JSONFile<DatabaseSchema>(dbFile);
     const db = new Low<DatabaseSchema>(adapter, {
       bankroll: defaultBankroll,
+      deposits: [],
     });
 
     await db.read();
     if (!db.data) {
-      db.data = { bankroll: defaultBankroll };
+      db.data = {
+        bankroll: defaultBankroll,
+        deposits: [],
+      };
       await db.write();
       console.log('Database initialized with default values.');
     }
@@ -45,7 +53,7 @@ async function initializeDb() {
   }
 }
 
-let dbInstance: Low<DatabaseSchema>;
+export let dbInstance: Low<DatabaseSchema>;
 
 export async function syncDb() {
   if (!dbInstance) {
@@ -53,6 +61,9 @@ export async function syncDb() {
   }
 
   await dbInstance.read();
-  dbInstance.data ||= { bankroll: defaultBankroll };
+  dbInstance.data ||= {
+    bankroll: defaultBankroll,
+    deposits: [],
+  };
   return dbInstance.data;
 }
