@@ -1,6 +1,6 @@
-import { Router, Request, Response } from 'express';
-import { dbInstance, syncDb } from '../../db';
 import crypto from 'crypto';
+import { Request, Response, Router } from 'express';
+import { dbInstance, syncDb } from '../../db';
 
 const router = Router();
 
@@ -45,6 +45,7 @@ router.post('/withdraw', async (req: Request, res: Response) => {
     res.status(400).json({
       message: 'Withdrawal amount exceeds available bankroll',
     });
+    return;
   }
 
   const newWithdraw = {

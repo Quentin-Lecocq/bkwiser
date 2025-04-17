@@ -1,5 +1,3 @@
-import CreateBetForm from './create-bet-form';
-
 const BetsPage = () => {
   return (
     <main
@@ -8,7 +6,7 @@ const BetsPage = () => {
       }}
     >
       <h1>Bets</h1>
-      <CreateBetForm />
+      <p>Coming soon...</p>
     </main>
   );
 };
