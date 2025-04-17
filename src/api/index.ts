@@ -12,10 +12,8 @@ app.get('/bankroll', async (_, res) => {
 });
 
 app.post('/bankroll', async (req: Request, res: Response) => {
-  console.log('Received request to add deposit:', req.body);
   const { amount } = req.body;
   const data = await syncDb();
-  console.log({ data });
 
   const now = new Date();
 
@@ -25,12 +23,10 @@ app.post('/bankroll', async (req: Request, res: Response) => {
     date: now.toISOString(),
   };
 
-  // doesnt work, deposits is undefined
   if (!data.deposits) {
     data.deposits = [];
   }
   data.deposits.push(newDeposit);
-  console.log(data.deposits);
   data.bankroll += amount;
 
   await dbInstance.write();
@@ -40,6 +36,14 @@ app.post('/bankroll', async (req: Request, res: Response) => {
     deposit: newDeposit,
     bankroll: data.bankroll,
   });
+});
+
+app.delete('/bankroll', async (_, res) => {
+  const data = await syncDb();
+  data.bankroll = 0;
+  data.deposits = [];
+  await dbInstance.write();
+  res.status(204).send();
 });
 
 app.listen(3001, () => {

@@ -1,10 +1,10 @@
 import { useForm } from '@tanstack/react-form';
 import { z } from 'zod';
-import { useAddDeposit } from '../bankroll.mutations';
+import { useAddDepositMutation } from '../bankroll.mutations';
 import { FormEvent } from 'react';
 
 export function DepositForm() {
-  const { mutate: addDeposit } = useAddDeposit();
+  const { mutate: addDeposit } = useAddDepositMutation();
 
   const form = useForm({
     defaultValues: {

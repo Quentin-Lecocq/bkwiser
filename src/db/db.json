@@ -1,25 +1,4 @@
 {
-  "bankroll": 394,
-  "deposits": [
-    {
-      "id": "cb6c382a-5ed1-4bca-b6a4-9da397c43890",
-      "amount": 100,
-      "date": "2025-04-17T06:00:14.530Z"
-    },
-    {
-      "id": "6643d459-bfa1-4f6b-ae04-7257737354ff",
-      "amount": 50,
-      "date": "2025-04-17T06:00:23.547Z"
-    },
-    {
-      "id": "013b7a31-3313-4e29-a3e0-d6fefcfa08d4",
-      "amount": 22,
-      "date": "2025-04-17T06:02:28.102Z"
-    },
-    {
-      "id": "2a8ed775-dc66-4b43-bcc3-b8b3da0b6c1c",
-      "amount": 222,
-      "date": "2025-04-17T06:02:41.168Z"
-    }
-  ]
+  "bankroll": 0,
+  "deposits": []
 }
