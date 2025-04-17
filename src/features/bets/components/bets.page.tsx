@@ -1,3 +1,5 @@
+import BetsList from './bets-list';
+
 const BetsPage = () => {
   return (
     <main
@@ -6,7 +8,7 @@ const BetsPage = () => {
       }}
     >
       <h1>Bets</h1>
-      <p>Coming soon...</p>
+      <BetsList />
     </main>
   );
 };

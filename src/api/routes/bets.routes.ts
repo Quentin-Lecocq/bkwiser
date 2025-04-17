@@ -23,6 +23,11 @@ export const betSchema = z.object({
 
 const router = Router();
 
+router.get('/', async (_req: Request, res: Response) => {
+  const data = await syncDb();
+  res.json(data.bets || []);
+});
+
 router.post('/new', async (req: Request, res: Response) => {
   const result = betSchema.safeParse(req.body);
 
