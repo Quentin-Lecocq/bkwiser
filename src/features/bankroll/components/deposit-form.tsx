@@ -1,9 +1,9 @@
 import { useForm } from '@tanstack/react-form';
 import { z } from 'zod';
 import { useDepositMutation } from '../bankroll.mutations';
-import { FormEvent } from 'react';
+import { FC, FormEvent } from 'react';
 
-export function DepositForm() {
+const DepositForm: FC = () => {
   const { mutate: addDeposit } = useDepositMutation();
 
   const form = useForm({
@@ -45,4 +45,6 @@ export function DepositForm() {
       <button type="submit">Deposit</button>
     </form>
   );
-}
+};
+
+export default DepositForm;

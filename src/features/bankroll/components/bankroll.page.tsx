@@ -1,9 +1,10 @@
+import { FC } from 'react';
 import BalanceDisplay from './balance-display';
-import { DepositForm } from './deposit-form';
+import DepositForm from './deposit-form';
 import ResetBankroll from './reset-bankroll';
-import { WithdrawalForm } from './withdrawal-form';
+import WithdrawalForm from './withdrawal-form';
 
-export default function BankrollPage() {
+const BankrollPage: FC = () => {
   return (
     <main
       style={{
@@ -17,4 +18,6 @@ export default function BankrollPage() {
       <ResetBankroll />
     </main>
   );
-}
+};
+
+export default BankrollPage;

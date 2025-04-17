@@ -1,7 +1,8 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { bankrollQueryOptions } from '../bankroll.queries';
+import { FC } from 'react';
 
-export default function BalanceDisplay() {
+const BalanceDisplay: FC = () => {
   const { data: bankroll } = useSuspenseQuery(bankrollQueryOptions);
 
   return (
@@ -9,4 +10,6 @@ export default function BalanceDisplay() {
       <p>{bankroll} euros</p>
     </>
   );
-}
+};
+
+export default BalanceDisplay;

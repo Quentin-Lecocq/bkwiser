@@ -1,6 +1,7 @@
+import { FC } from 'react';
 import { useBankrollResetMutation } from '../bankroll.mutations';
 
-export default function ResetBankroll() {
+const ResetBankroll: FC = () => {
   const { mutate: resetBankroll } = useBankrollResetMutation();
 
   return (
@@ -8,4 +9,6 @@ export default function ResetBankroll() {
       <button onClick={() => resetBankroll()}>Reset</button>
     </>
   );
-}
+};
+
+export default ResetBankroll;

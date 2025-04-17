@@ -3,10 +3,10 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 import { bankrollQueryOptions } from '../bankroll.queries';
 import { useWithdrawMutation } from '../bankroll.mutations';
-import { FormEvent } from 'react';
+import { FC, FormEvent } from 'react';
 import { isWithdrawalValid } from '../bankroll.service';
 
-export function WithdrawalForm() {
+const WithdrawalForm: FC = () => {
   const { data: bankroll } = useSuspenseQuery(bankrollQueryOptions);
   const { mutate: addWithdraw } = useWithdrawMutation();
 
@@ -66,4 +66,6 @@ export function WithdrawalForm() {
       <button type="submit">Withdraw</button>
     </form>
   );
-}
+};
+
+export default WithdrawalForm;
