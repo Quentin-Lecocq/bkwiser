@@ -71,6 +71,7 @@ router.delete('/', async (_req: Request, res: Response) => {
   const data = await syncDb();
   data.bankroll = 0;
   data.deposits = [];
+  data.withdraws = [];
   await dbInstance.write();
   res.status(204).send();
 });
