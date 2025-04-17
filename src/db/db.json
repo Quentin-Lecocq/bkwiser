@@ -1,12 +1,6 @@
 {
-  "bankroll": 100,
-  "deposits": [
-    {
-      "id": "938205dd-1787-4bc3-b27f-6d29fe771a43",
-      "amount": 123,
-      "date": "2025-04-17T07:10:59.615Z"
-    }
-  ],
+  "bankroll": 0,
+  "deposits": [],
   "withdraws": [
     {
       "id": "394eac88-cb35-47ea-9396-a110295ae6c9",

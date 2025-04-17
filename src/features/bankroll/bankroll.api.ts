@@ -51,7 +51,7 @@ export async function addWithdraw(amount: number): Promise<void> {
  * Resets the bankroll to its initial state.
  * @returns {Promise<void>}
  */
-export async function resetBankroll() {
+export async function resetBankroll(): Promise<void> {
   const res = await fetch('http://localhost:3001/bankroll', {
     method: 'DELETE',
     headers: {

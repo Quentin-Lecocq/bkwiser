@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { bankrollQueryOptions } from '../bankroll.queries';
 import { useWithdrawMutation } from '../bankroll.mutations';
 import { FormEvent } from 'react';
+import { isWithdrawalValid } from '../bankroll.service';
 
 export function WithdrawalForm() {
   const { data: bankroll } = useSuspenseQuery(bankrollQueryOptions);
@@ -21,7 +22,7 @@ export function WithdrawalForm() {
         amount: z.number().min(1, 'Deposit amount must be greater than 0'),
       }),
       onSubmitAsync: async ({ value }) => {
-        if (value.amount > bankroll) {
+        if (!isWithdrawalValid(bankroll, value.amount)) {
           return {
             fields: {
               amount: `You can't withdraw more than ${bankroll}€`,
