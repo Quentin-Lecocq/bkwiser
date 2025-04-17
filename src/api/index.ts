@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import { dbInstance, syncDb } from '../db';
 
@@ -11,7 +11,7 @@ app.get('/bankroll', async (_, res) => {
   res.json(data);
 });
 
-app.post('/bankroll', async (req: Request, res: Response) => {
+app.post('/bankroll', async (req, res) => {
   const { amount } = req.body;
   const data = await syncDb();
 
