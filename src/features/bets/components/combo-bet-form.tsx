@@ -1,21 +1,30 @@
 import { useForm } from '@tanstack/react-form';
 import { FC, FormEvent } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  getDefaultBetOutcome,
+  getDefaultBetType,
+  outcomeOptions,
+} from '../bets.constants';
+import { useCreateBetMutation } from '../bets.mutations';
+import { Outcome } from '../bets.types';
 
 const ComboBetForm: FC = () => {
+  const { mutate: createBet } = useCreateBetMutation();
+
   const form = useForm({
     defaultValues: {
       stake: 0,
-      type: 'combo',
+      type: getDefaultBetType(),
       date: new Date().toISOString().split('T')[0],
-      outcome: 'pending',
+      outcome: getDefaultBetOutcome(),
       bookmaker: '',
       legs: [
         {
           id: uuidv4(),
-          description: '',
+          label: '',
           odds: 1,
-          result: 'pending',
+          outcome: getDefaultBetOutcome(),
         },
       ],
     },
@@ -23,11 +32,12 @@ const ComboBetForm: FC = () => {
       const totalOdds = value.legs.reduce((acc, leg) => acc * leg.odds, 1);
 
       const payload = {
+        id: uuidv4(),
         ...value,
         odds: Number(totalOdds.toFixed(2)),
       };
 
-      console.log('Submitting combo bet:', payload);
+      createBet({ bet: payload });
       form.reset();
     },
   });
@@ -86,7 +96,6 @@ const ComboBetForm: FC = () => {
           </div>
         )}
       </form.Field>
-
       <form.Field name="legs" mode="array">
         {(field) => (
           <>
@@ -100,13 +109,13 @@ const ComboBetForm: FC = () => {
                 }}
               >
                 <div>
-                  <label>Description</label>
+                  <label>Label</label>
                   <input
                     type="text"
-                    value={leg.description}
+                    value={leg.label}
                     onChange={(e) => {
                       const next = [...field.state.value];
-                      next[index].description = e.target.value;
+                      next[index].label = e.target.value;
                       field.handleChange(next);
                     }}
                   />
@@ -124,22 +133,21 @@ const ComboBetForm: FC = () => {
                     }}
                   />
                 </div>
-
-                {/* Résultat */}
                 <div>
-                  <label>Résultat</label>
+                  <label>Outcome</label>
                   <select
-                    value={leg.result}
+                    value={leg.outcome}
                     onChange={(e) => {
                       const next = [...field.state.value];
-                      next[index].result = e.target.value as any;
+                      next[index].outcome = e.target.value as Outcome;
                       field.handleChange(next);
                     }}
                   >
-                    <option value="pending">Pending</option>
-                    <option value="won">Won</option>
-                    <option value="lost">Lost</option>
-                    <option value="void">Void</option>
+                    {outcomeOptions.map((opt) => (
+                      <option key={opt} value={opt}>
+                        {opt[0].toUpperCase() + opt.slice(1)}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -164,9 +172,9 @@ const ComboBetForm: FC = () => {
                   ...field.state.value,
                   {
                     id: uuidv4(),
-                    description: '',
+                    label: '',
                     odds: 1,
-                    result: 'pending',
+                    outcome: getDefaultBetOutcome(),
                   },
                 ])
               }

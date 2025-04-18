@@ -1,25 +1,10 @@
 import { Request, Response, Router } from 'express';
-import { z } from 'zod';
 import { dbInstance, syncDb } from '../../db';
-
-export const legSchema = z.object({
-  id: z.string().uuid(),
-  description: z.string(),
-  odds: z.number().positive(),
-  outcome: z.enum(['win', 'lose', 'pending', 'void']),
-});
-
-export const betSchema = z.object({
-  id: z.string().uuid(),
-  stake: z.number().positive(),
-  type: z.enum(['single', 'combo']),
-  date: z.string(),
-  outcome: z.enum(['won', 'lost', 'pending', 'void']),
-  description: z.string(),
-  bookmaker: z.string().optional(),
-  odds: z.number().positive(),
-  legs: z.array(legSchema).min(1),
-});
+import { betSchema } from '../schemas/bets.schema';
+import {
+  computeBetOutcome,
+  computeGainAndProfit,
+} from '../services/bets.service';
 
 const router = Router();
 
@@ -38,7 +23,22 @@ router.post('/new', async (req: Request, res: Response) => {
     });
     return;
   }
-  const newBet = result.data;
+
+  const { gain, profit } = computeGainAndProfit(
+    result.data.odds,
+    result.data.stake,
+    computeBetOutcome(result.data.legs),
+  );
+
+  const newBet = {
+    ...result.data,
+    id: crypto.randomUUID(),
+    outcome: computeBetOutcome(result.data.legs),
+    gain,
+    profit,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
 
   const data = await syncDb();
 

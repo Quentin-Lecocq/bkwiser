@@ -1,23 +1,29 @@
 import { useForm } from '@tanstack/react-form';
 import { FC } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useCreateSingleBetMutation } from '../bets.mutations';
+import {
+  getDefaultBetOutcome,
+  getDefaultBetType,
+  outcomeOptions,
+} from '../bets.constants';
+import { useCreateBetMutation } from '../bets.mutations';
+import { Outcome } from '../bets.types';
 
 const SingleBetForm: FC = () => {
-  const { mutate: createBet } = useCreateSingleBetMutation();
+  const { mutate: createBet } = useCreateBetMutation();
 
   const form = useForm({
     defaultValues: {
       stake: 0,
-      type: 'single' as const,
+      type: getDefaultBetType(),
       date: new Date().toISOString().split('T')[0],
-      outcome: 'pending',
+      outcome: getDefaultBetOutcome(),
       bookmaker: '',
-      description: '',
+      label: '',
       odds: 0,
     },
     onSubmit: async ({ value }) => {
-      const { description, odds, outcome } = value;
+      const { label, odds, outcome } = value;
 
       const payload = {
         id: uuidv4(),
@@ -25,7 +31,7 @@ const SingleBetForm: FC = () => {
         legs: [
           {
             id: uuidv4(),
-            description,
+            label,
             odds,
             outcome,
           },
@@ -96,10 +102,10 @@ const SingleBetForm: FC = () => {
         )}
       />
       <form.Field
-        name="description"
+        name="label"
         children={(field) => (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <label htmlFor="description">Description</label>
+            <label htmlFor="label">Label</label>
             <input
               type="text"
               value={field.state.value}
@@ -109,7 +115,6 @@ const SingleBetForm: FC = () => {
           </div>
         )}
       />
-
       <form.Field
         name="outcome"
         children={(field) => (
@@ -118,11 +123,13 @@ const SingleBetForm: FC = () => {
             <select
               value={field.state.value}
               onBlur={field.handleBlur}
-              onChange={(e) => field.handleChange(e.target.value)}
+              onChange={(e) => field.handleChange(e.target.value as Outcome)}
             >
-              <option value="won">Won</option>
-              <option value="lost">Lost</option>
-              <option value="pending">Pending</option>
+              {outcomeOptions.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt[0].toUpperCase() + opt.slice(1)}
+                </option>
+              ))}
             </select>
           </div>
         )}

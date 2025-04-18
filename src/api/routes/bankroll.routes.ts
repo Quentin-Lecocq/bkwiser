@@ -73,6 +73,7 @@ router.delete('/', async (_req: Request, res: Response) => {
   data.bankroll = 0;
   data.deposits = [];
   data.withdraws = [];
+  data.bets = [];
   await dbInstance.write();
   res.status(204).send();
 });

@@ -1,36 +1,6 @@
 {
-  "bankroll": 150,
-  "deposits": [
-    {
-      "id": "3fe3537f-dfb8-4b75-801b-64f846a2b6d6",
-      "amount": 100,
-      "date": "2025-04-17T16:13:25.205Z"
-    },
-    {
-      "id": "1672cc62-4450-4613-afe4-044117c71de7",
-      "amount": 50,
-      "date": "2025-04-17T16:13:28.760Z"
-    }
-  ],
-  "withdraws": [],
-  "bets": [
-    {
-      "id": "22e19a12-e0a0-41c2-906a-5ce74ca805fd",
-      "stake": 2.4,
-      "type": "single",
-      "date": "2025-04-17",
-      "outcome": "pending",
-      "description": "Arsenal - Barcelone [2]",
-      "bookmaker": "winamax",
-      "odds": 3.1,
-      "legs": [
-        {
-          "id": "095d3869-db35-436d-9b2c-2e0274f14c3a",
-          "description": "Arsenal - Barcelone [2]",
-          "odds": 3.1,
-          "outcome": "pending"
-        }
-      ]
-    }
-  ]
+  "bankroll": 0,
+  "deposits": [],
+  "bets": [],
+  "withdraws": []
 }
