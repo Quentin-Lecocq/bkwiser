@@ -15,6 +15,7 @@ export const betSchema = z.object({
   outcome: z.enum(['won', 'lost', 'pending', 'void']),
   bookmaker: z.string().optional(),
   odds: z.number().positive(),
+  profit: z.number(),
   legs: z.array(legSchema).min(1),
 });
 

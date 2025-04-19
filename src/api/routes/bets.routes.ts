@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 import { dbInstance, syncDb } from '../../db';
 import { Bet, betSchema, deleteBetSchema } from '../schemas/bets.schema';
 import {
+  applyBetImpactOnBankroll,
   computeBetOutcome,
   computeGainAndProfit,
 } from '../services/bets.service';
@@ -24,10 +25,11 @@ router.post('/new', async (req: Request, res: Response) => {
     return;
   }
 
+  const outcome = computeBetOutcome(result.data.legs);
   const { gain, profit } = computeGainAndProfit(
     result.data.odds,
     result.data.stake,
-    computeBetOutcome(result.data.legs),
+    outcome,
   );
 
   const newBet = {
@@ -45,7 +47,10 @@ router.post('/new', async (req: Request, res: Response) => {
   if (!data.bets) {
     data.bets = [];
   }
+
   data.bets.push(newBet);
+  const impact = applyBetImpactOnBankroll(newBet, 'add');
+  data.bankroll += impact;
   await dbInstance.write();
 
   res.status(201).json({
@@ -66,8 +71,6 @@ router.delete('/:id/delete', async (req: Request, res: Response) => {
   }
 
   const { id } = result.data;
-
-  console.log({ id });
 
   const data = await syncDb();
   const initialLength = data.bets.length;

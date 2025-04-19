@@ -1,4 +1,4 @@
-import { BetLeg, Outcome } from '../schemas/bets.schema';
+import { Bet, BetLeg, Outcome } from '../schemas/bets.schema';
 
 export function computeBetOutcome(legs: BetLeg[]): Outcome {
   const outcomes = legs.map(({ outcome }) => outcome);
@@ -45,4 +45,13 @@ export function computeGainAndProfit(
     gain: Number(gain.toFixed(2)),
     profit: Number(profit.toFixed(2)),
   };
+}
+
+export function applyBetImpactOnBankroll(
+  bet: Bet,
+  operation: 'add' | 'remove',
+) {
+  if (bet.outcome === 'pending') return 0;
+
+  return operation === 'add' ? bet.profit : -bet.profit;
 }

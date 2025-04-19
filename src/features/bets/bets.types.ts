@@ -20,8 +20,8 @@ export interface Bet {
   bookmaker?: string;
   legs: BetLeg[];
   createdAt: Date;
+  profit: number;
   updatedAt: Date;
-  netResult: number;
 }
 
 export interface BetFormValues {
