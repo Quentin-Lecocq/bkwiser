@@ -1,3 +1,4 @@
+import { useDeleteBetMutation } from '../bets.mutations';
 import { Bet } from '../bets.types';
 
 interface BetListItemProps {
@@ -5,7 +6,14 @@ interface BetListItemProps {
 }
 
 const BetsListItem = ({ bet }: BetListItemProps) => {
-  const { date, stake, odds, type, outcome, legs } = bet;
+  const { mutate: deleteBet } = useDeleteBetMutation();
+  const { id, date, stake, odds, type, outcome, legs } = bet;
+
+  function handleDeleteBet(id: string) {
+    if (confirm('are u sure?')) {
+      deleteBet({ id });
+    }
+  }
 
   return (
     <li style={{ marginBottom: '1rem' }}>
@@ -18,6 +26,7 @@ const BetsListItem = ({ bet }: BetListItemProps) => {
           </li>
         ))}
       </ul>
+      <button onClick={() => handleDeleteBet(id)}>delete</button>
     </li>
   );
 };

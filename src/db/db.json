@@ -1,6 +1,119 @@
 {
   "bankroll": 0,
   "deposits": [],
-  "bets": [],
+  "bets": [
+    {
+      "id": "bet-1",
+      "stake": 5,
+      "type": "single",
+      "date": "2025-04-15T00:00:00.000Z",
+      "outcome": "won",
+      "bookmaker": "Bet365",
+      "odds": 2.1,
+      "netResult": 5.5,
+      "legs": [
+        {
+          "id": "leg-1",
+          "label": "Real Madrid vs Chelsea — Over 2.5 goals",
+          "odds": 2.1,
+          "outcome": "won"
+        }
+      ],
+      "createdAt": "2025-04-15T10:30:00.000Z",
+      "updatedAt": "2025-04-15T10:30:00.000Z"
+    },
+    {
+      "id": "bet-2",
+      "stake": 10,
+      "type": "combo",
+      "date": "2025-04-16T00:00:00.000Z",
+      "outcome": "lost",
+      "bookmaker": "Winamax",
+      "odds": 4.5,
+      "netResult": -10,
+      "legs": [
+        {
+          "id": "leg-2",
+          "label": "Arsenal to win",
+          "odds": 1.8,
+          "outcome": "won"
+        },
+        {
+          "id": "leg-3",
+          "label": "Bayern Munich to win",
+          "odds": 2.5,
+          "outcome": "lost"
+        }
+      ],
+      "createdAt": "2025-04-16T12:00:00.000Z",
+      "updatedAt": "2025-04-16T12:00:00.000Z"
+    },
+    {
+      "id": "bet-3",
+      "stake": 3,
+      "type": "single",
+      "date": "2025-04-17T00:00:00.000Z",
+      "outcome": "lost",
+      "bookmaker": "Parions Sport",
+      "odds": 3.2,
+      "netResult": -3,
+      "legs": [
+        {
+          "id": "leg-4",
+          "label": "Napoli to win",
+          "odds": 3.2,
+          "outcome": "lost"
+        }
+      ],
+      "createdAt": "2025-04-17T14:30:00.000Z",
+      "updatedAt": "2025-04-17T14:30:00.000Z"
+    },
+    {
+      "id": "bet-4",
+      "stake": 7,
+      "type": "combo",
+      "date": "2025-04-18T00:00:00.000Z",
+      "outcome": "pending",
+      "bookmaker": "Unibet",
+      "odds": 3.9,
+      "netResult": 0,
+      "legs": [
+        {
+          "id": "leg-5",
+          "label": "PSG to win",
+          "odds": 1.9,
+          "outcome": "won"
+        },
+        {
+          "id": "leg-6",
+          "label": "Under 2.5 in Juventus vs Milan",
+          "odds": 2.05,
+          "outcome": "pending"
+        }
+      ],
+      "createdAt": "2025-04-18T08:45:00.000Z",
+      "updatedAt": "2025-04-18T08:45:00.000Z"
+    },
+    {
+      "id": "bet-5",
+      "stake": 4,
+      "type": "single",
+      "date": "2025-04-19T00:00:00.000Z",
+      "outcome": "void",
+      "bookmaker": "Betclic",
+      "odds": 1.75,
+      "netResult": 0,
+      "legs": [
+        {
+          "id": "leg-7",
+          "label": "Monaco to win (match postponed)",
+          "odds": 1.75,
+          "outcome": "void"
+        }
+      ],
+      "createdAt": "2025-04-19T09:00:00.000Z",
+      "updatedAt": "2025-04-19T09:00:00.000Z"
+    }
+  ],
   "withdraws": []
 }

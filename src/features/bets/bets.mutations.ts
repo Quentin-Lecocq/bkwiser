@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { createBet } from './bets.api';
+import { queryClient } from '../../main';
+import { createBetDB, deleteBetDB } from './bets.api';
 import { Bet, BetFormValues } from './bets.types';
 
 export function useCreateBetMutation() {
@@ -14,7 +15,21 @@ export function useCreateBetMutation() {
           ),
         };
 
-      await createBet(payload);
+      await createBetDB(payload);
+      await queryClient.invalidateQueries({
+        queryKey: ['bets'],
+      });
+    },
+  });
+}
+
+export function useDeleteBetMutation() {
+  return useMutation({
+    mutationFn: async ({ id }: { id: string }) => {
+      await deleteBetDB(id);
+      await queryClient.invalidateQueries({
+        queryKey: ['bets'],
+      });
     },
   });
 }

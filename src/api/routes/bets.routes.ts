@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { dbInstance, syncDb } from '../../db';
-import { betSchema } from '../schemas/bets.schema';
+import { Bet, betSchema, deleteBetSchema } from '../schemas/bets.schema';
 import {
   computeBetOutcome,
   computeGainAndProfit,
@@ -51,6 +51,33 @@ router.post('/new', async (req: Request, res: Response) => {
   res.status(201).json({
     message: 'Bet added successfully',
     bet: newBet,
+  });
+});
+
+router.delete('/:id/delete', async (req: Request, res: Response) => {
+  const result = deleteBetSchema.safeParse(req.params);
+
+  if (!result.success) {
+    res.status(400).json({
+      message: 'Invalid ID',
+      error: result.error.errors,
+    });
+    return;
+  }
+
+  const { id } = result.data;
+
+  console.log({ id });
+
+  const data = await syncDb();
+  const initialLength = data.bets.length;
+
+  data.bets = data.bets.filter((bet: Bet) => bet.id !== id);
+  await dbInstance.write();
+
+  res.status(200).json({
+    message: 'Bet deleted successfully',
+    deleted: initialLength !== data.bets.length,
   });
 });
 
