@@ -1,13 +1,9 @@
 import { useForm } from '@tanstack/react-form';
 import { FC, FormEvent } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import {
-  getDefaultBetOutcome,
-  getDefaultBetType,
-  outcomeOptions,
-} from '../bets.constants';
+import { getDefaultBetOutcome, outcomeOptions } from '../bets.constants';
 import { useCreateBetMutation } from '../bets.mutations';
-import { Outcome } from '../bets.types';
+import { BetType, Outcome } from '../bets.types';
 
 const ComboBetForm: FC = () => {
   const { mutate: createBet } = useCreateBetMutation();
@@ -15,7 +11,7 @@ const ComboBetForm: FC = () => {
   const form = useForm({
     defaultValues: {
       stake: 0,
-      type: getDefaultBetType(),
+      type: 'combo' as BetType,
       date: new Date().toISOString().split('T')[0],
       outcome: getDefaultBetOutcome(),
       bookmaker: '',

@@ -1,5 +1,5 @@
 {
-  "bankroll": 158,
+  "bankroll": 150,
   "deposits": [
     {
       "id": "5a70384f-f6f7-40b5-bf15-e97a60ddf50d",
@@ -7,34 +7,6 @@
       "date": "2025-04-19T06:19:37.023Z"
     }
   ],
-  "bets": [
-    {
-      "id": "81fe4e89-11da-4c39-8810-bb3883866c9e",
-      "stake": 2,
-      "type": "single",
-      "date": "2025-04-19T00:00:00.000Z",
-      "outcome": "won",
-      "bookmaker": "winamax",
-      "odds": 5,
-      "profit": 8,
-      "legs": [
-        {
-          "id": "56f699e6-6e84-462f-87fc-4f0c5be31ef7",
-          "label": "Arsenal vainqueur",
-          "odds": 2,
-          "outcome": "won"
-        },
-        {
-          "id": "14765d37-42f9-4eab-af0c-77675e03c5ab",
-          "label": "lewan buteur",
-          "odds": 2.5,
-          "outcome": "won"
-        }
-      ],
-      "gain": 10,
-      "createdAt": "2025-04-19T06:41:05.302Z",
-      "updatedAt": "2025-04-19T06:41:05.302Z"
-    }
-  ],
+  "bets": [],
   "withdraws": []
 }

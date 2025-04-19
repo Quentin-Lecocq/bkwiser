@@ -19,8 +19,9 @@ export interface Bet {
   outcome: Outcome;
   bookmaker?: string;
   legs: BetLeg[];
-  createdAt: Date;
   profit: number;
+  gain: number;
+  createdAt: Date;
   updatedAt: Date;
 }
 

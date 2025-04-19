@@ -7,7 +7,7 @@ interface BetListItemProps {
 
 const BetsListItem = ({ bet }: BetListItemProps) => {
   const { mutate: deleteBet } = useDeleteBetMutation();
-  const { id, date, stake, odds, type, outcome, legs } = bet;
+  const { id, date, stake, odds, type, outcome, legs, gain, profit } = bet;
 
   function handleDeleteBet(id: string) {
     if (confirm('are u sure?')) {
@@ -18,7 +18,8 @@ const BetsListItem = ({ bet }: BetListItemProps) => {
   return (
     <li style={{ marginBottom: '1rem' }}>
       <strong>{new Date(date).toLocaleDateString()}</strong> — {type} — Stake:{' '}
-      {stake}€ — Global Odds: {odds} — Outcome: {outcome}
+      {stake}€ — Global Odds: {odds} — Outcome: {outcome} — Gain: {gain}€ -
+      Profit: {profit}€
       <ul style={{ marginTop: '0.5rem', paddingLeft: '1rem' }}>
         {legs.map(({ id, label, odds, outcome }) => (
           <li key={id}>
