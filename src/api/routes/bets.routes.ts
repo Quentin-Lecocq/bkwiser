@@ -73,6 +73,18 @@ router.delete('/:id/delete', async (req: Request, res: Response) => {
   const { id } = result.data;
 
   const data = await syncDb();
+  const betToDelete = data.bets.find((bet: Bet) => bet.id === id);
+
+  if (!betToDelete) {
+    res.status(404).json({
+      message: 'Bet not found',
+    });
+    return;
+  }
+
+  const impact = applyBetImpactOnBankroll(betToDelete, 'remove');
+  data.bankroll += impact;
+
   const initialLength = data.bets.length;
 
   data.bets = data.bets.filter((bet: Bet) => bet.id !== id);
