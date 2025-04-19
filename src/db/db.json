@@ -1,33 +1,33 @@
 {
-  "bankroll": 150,
+  "bankroll": 140,
   "deposits": [
     {
-      "id": "5a70384f-f6f7-40b5-bf15-e97a60ddf50d",
+      "id": "69c24571-baac-466e-9b48-584fe9f50eb6",
       "amount": 150,
-      "date": "2025-04-19T06:19:37.023Z"
+      "date": "2025-04-19T17:05:47.029Z"
     }
   ],
   "bets": [
     {
-      "id": "478f748b-6cab-4c52-9da9-798bdf120479",
-      "stake": 2,
+      "id": "c4a9f081-e617-4ab7-ad45-3ab61fa8db9e",
+      "stake": 10,
       "type": "single",
       "date": "2025-04-19T00:00:00.000Z",
-      "outcome": "pending",
+      "outcome": "lost",
       "bookmaker": "winamax",
-      "odds": 1,
-      "profit": 0,
+      "odds": 1.5,
+      "profit": -10,
       "legs": [
         {
-          "id": "50ad154c-1134-48a5-b3e1-2cb9fdb7a3b1",
-          "label": "Lewandowski",
-          "odds": 1,
-          "outcome": "pending"
+          "id": "e407e2da-aab8-40b8-a66f-b261b4a14140",
+          "label": "Lewan buteur",
+          "odds": 1.5,
+          "outcome": "lost"
         }
       ],
       "gain": 0,
-      "createdAt": "2025-04-19T15:01:00.281Z",
-      "updatedAt": "2025-04-19T15:44:08.226Z"
+      "createdAt": "2025-04-19T17:17:56.722Z",
+      "updatedAt": "2025-04-19T17:18:22.352Z"
     }
   ],
   "withdraws": []

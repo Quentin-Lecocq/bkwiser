@@ -10,6 +10,7 @@ import {
   applyBetImpactOnBankroll,
   computeBetOutcome,
   computeGainAndProfit,
+  updateBankrollOnBetEdit,
 } from '../services/bets.service';
 
 const router = Router();
@@ -84,7 +85,7 @@ router.post('/new', async (req: Request, res: Response) => {
   }
 
   data.bets.push(newBet);
-  const impact = applyBetImpactOnBankroll(newBet, 'add');
+  const impact = applyBetImpactOnBankroll(newBet);
   data.bankroll += impact;
   await dbInstance.write();
 
@@ -117,8 +118,8 @@ router.delete('/:id/delete', async (req: Request, res: Response) => {
     return;
   }
 
-  const impact = applyBetImpactOnBankroll(betToDelete, 'remove');
-  data.bankroll += impact;
+  const impact = applyBetImpactOnBankroll(betToDelete);
+  data.bankroll -= impact;
 
   const initialLength = data.bets.length;
 
@@ -150,11 +151,25 @@ router.patch('/:id', async (req: Request, res: Response) => {
     return;
   }
 
-  const updatedBet = {
-    ...data.bets[index],
+  const oldBet = data.bets[index];
+
+  const outcome = computeBetOutcome(result.data.legs);
+  const { gain, profit } = computeGainAndProfit(
+    result.data.odds,
+    result.data.stake,
+    outcome,
+  );
+
+  const updatedBet: Bet = {
+    ...oldBet,
     ...result.data,
+    outcome,
+    gain,
+    profit,
     updatedAt: new Date(),
   };
+
+  data.bankroll = updateBankrollOnBetEdit(data.bankroll, oldBet, updatedBet);
 
   data.bets[index] = updatedBet;
   await dbInstance.write();

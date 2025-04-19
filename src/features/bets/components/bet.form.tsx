@@ -51,14 +51,14 @@ const BetForm: FC<BetFormProps> = ({ mode, bet }) => {
           originalBet: bet,
           updatedValues: payload,
         });
+        form.reset();
         navigate({ to: '/bets' });
       } else {
         await createBet({
           bet: payload,
         });
+        form.reset();
       }
-
-      form.reset();
     },
   });
 

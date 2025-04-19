@@ -47,11 +47,18 @@ export function computeGainAndProfit(
   };
 }
 
-export function applyBetImpactOnBankroll(
-  bet: Bet,
-  operation: 'add' | 'remove',
-) {
+export function applyBetImpactOnBankroll(bet: Bet): number {
   if (bet.outcome === 'pending') return 0;
+  return bet.profit;
+}
 
-  return operation === 'add' ? bet.profit : -bet.profit;
+export function updateBankrollOnBetEdit(
+  currentBankroll: number,
+  oldBet: Bet,
+  newBet: Bet,
+): number {
+  const oldImpact = applyBetImpactOnBankroll(oldBet);
+  const newImpact = applyBetImpactOnBankroll(newBet);
+
+  return currentBankroll - oldImpact + newImpact;
 }
