@@ -1,6 +1,11 @@
 import { Request, Response, Router } from 'express';
 import { dbInstance, syncDb } from '../../db';
-import { Bet, betSchema, deleteBetSchema } from '../schemas/bets.schema';
+import {
+  Bet,
+  betSchema,
+  deleteBetSchema,
+  getBetSchemaParams,
+} from '../schemas/bets.schema';
 import {
   applyBetImpactOnBankroll,
   computeBetOutcome,
@@ -12,6 +17,36 @@ const router = Router();
 router.get('/', async (_req: Request, res: Response) => {
   const data = await syncDb();
   res.json(data.bets || []);
+});
+
+router.get('/:id', async (req: Request, res: Response) => {
+  const result = getBetSchemaParams.safeParse(req.params);
+
+  if (!result.success) {
+    res.status(400).json({
+      message: 'Invalid ID',
+      error: result.error.errors,
+    });
+    return;
+  }
+
+  const { id } = result.data;
+
+  const data = await syncDb();
+
+  const bet = data.bets.find((bet: Bet) => bet.id === id);
+
+  if (!bet) {
+    res.status(404).json({
+      message: 'Bet not found',
+    });
+    return;
+  }
+
+  res.status(200).json({
+    message: 'Bet fetched successfully',
+    data,
+  });
 });
 
 router.post('/new', async (req: Request, res: Response) => {
@@ -94,6 +129,20 @@ router.delete('/:id/delete', async (req: Request, res: Response) => {
     message: 'Bet deleted successfully',
     deleted: initialLength !== data.bets.length,
   });
+});
+
+router.patch('/:id', async (req: Request, res: Response) => {
+  const result = betSchema.safeParse({ ...req.body, id: req.params.id });
+
+  if (!result.success) {
+    res.status(400).json({
+      message: 'Invalid data',
+      error: result.error.errors,
+    });
+    return;
+  }
+
+  console.log(result.data);
 });
 
 export default router;

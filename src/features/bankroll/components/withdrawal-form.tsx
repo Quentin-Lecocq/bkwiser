@@ -1,10 +1,10 @@
 import { useForm } from '@tanstack/react-form';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { z } from 'zod';
-import { bankrollQueryOptions } from '../bankroll.queries';
-import { useWithdrawMutation } from '../bankroll.mutations';
 import { FC, FormEvent } from 'react';
-import { isWithdrawalValid } from '../bankroll.service';
+import { z } from 'zod';
+import { useWithdrawMutation } from '../bankroll.mutations';
+import { bankrollQueryOptions } from '../bankroll.queries';
+import { isWithdrawalValid } from '../bankroll.services';
 
 const WithdrawalForm: FC = () => {
   const { data: bankroll } = useSuspenseQuery(bankrollQueryOptions);

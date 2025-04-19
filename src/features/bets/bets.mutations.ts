@@ -2,44 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 
 import { queryClient } from '../../main';
 import { createBetDB, deleteBetDB } from './bets.api';
-import { Bet, BetFormValues, Outcome } from './bets.types';
-
-function computeGainAndProfit(
-  odds: number,
-  stake: number,
-  outcome: Outcome,
-): {
-  gain: number;
-  profit: number;
-} {
-  let gain = 0;
-  let profit = 0;
-  switch (outcome) {
-    case 'won':
-      gain = odds * stake;
-      profit = gain - stake;
-      break;
-    case 'lost':
-      gain = 0;
-      profit = -stake;
-      break;
-    case 'void':
-      gain = 0;
-      profit = 0;
-      break;
-    case 'pending':
-      gain = 0;
-      profit = 0;
-      break;
-    default:
-      throw new Error(`Unknown outcome: ${outcome}`);
-  }
-
-  return {
-    gain: Number(gain.toFixed(2)),
-    profit: Number(profit.toFixed(2)),
-  };
-}
+import { computeGainAndProfit } from './bets.services';
+import { Bet, BetFormValues } from './bets.types';
 
 export function useCreateBetMutation() {
   return useMutation({
@@ -54,7 +18,7 @@ export function useCreateBetMutation() {
           ? 0
           : computeGainAndProfit(odds, bet.stake, outcome).profit;
 
-      const payload: Omit<Bet, 'id' | 'createdAt' | 'updatedAt'> = {
+      const payload: Omit<Bet, 'id' | 'createdAt' | 'updatedAt' | 'gain'> = {
         ...bet,
         date: new Date(bet.date),
         odds,
@@ -76,6 +40,14 @@ export function useDeleteBetMutation() {
       await queryClient.invalidateQueries({
         queryKey: ['bets'],
       });
+    },
+  });
+}
+
+export function useUpdateBetMutation() {
+  return useMutation({
+    mutationFn: async () => {
+      console.log('edit bet');
     },
   });
 }

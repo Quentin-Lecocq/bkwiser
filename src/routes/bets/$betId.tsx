@@ -1,16 +1,15 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, useParams } from '@tanstack/react-router';
+import { getBetByIdQueryOptions } from '../../features/bets/bets.queries';
+import BetPage from '../../features/bets/components/ bet.page';
+import { queryClient } from '../../main';
 
 export const Route = createFileRoute('/bets/$betId')({
+  loader: ({ params }) =>
+    queryClient.ensureQueryData(getBetByIdQueryOptions(params.betId)),
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return (
-    <div>
-      <h2>Bet details</h2>
-      <p>Details of bet</p>
-      <Link to="/bets">Back to bets</Link>
-      <Link to="/bets/new">Create new bet</Link>
-    </div>
-  );
+  const { betId } = useParams({ from: '/bets/$betId' });
+  return <BetPage id={betId} />;
 }

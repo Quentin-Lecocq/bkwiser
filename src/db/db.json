@@ -7,6 +7,55 @@
       "date": "2025-04-19T06:19:37.023Z"
     }
   ],
-  "bets": [],
+  "bets": [
+    {
+      "id": "8c0a287e-f7e1-42dc-9d0c-e0105481e5ff",
+      "stake": 10,
+      "type": "single",
+      "date": "2025-04-19T00:00:00.000Z",
+      "outcome": "pending",
+      "bookmaker": "winamax",
+      "odds": 2,
+      "profit": 0,
+      "legs": [
+        {
+          "id": "64b3b725-f16e-490d-b466-3407fdfe6c07",
+          "label": "Lew",
+          "odds": 2,
+          "outcome": "pending"
+        }
+      ],
+      "gain": 0,
+      "createdAt": "2025-04-19T07:03:46.740Z",
+      "updatedAt": "2025-04-19T07:03:46.740Z"
+    },
+    {
+      "id": "ba15df47-e10b-4714-b3f8-2c818260a24b",
+      "stake": 2,
+      "type": "combo",
+      "date": "2025-04-19T00:00:00.000Z",
+      "outcome": "pending",
+      "bookmaker": "sqqda",
+      "odds": 1,
+      "profit": 0,
+      "legs": [
+        {
+          "id": "13264408-6145-4bbe-8767-d21e9d82a414",
+          "label": "bet 1",
+          "odds": 1,
+          "outcome": "pending"
+        },
+        {
+          "id": "b886481c-45ef-45a4-b1fe-8792c660d110",
+          "label": "bet 2",
+          "odds": 1,
+          "outcome": "pending"
+        }
+      ],
+      "gain": 0,
+      "createdAt": "2025-04-19T09:32:41.703Z",
+      "updatedAt": "2025-04-19T09:32:41.703Z"
+    }
+  ],
   "withdraws": []
 }

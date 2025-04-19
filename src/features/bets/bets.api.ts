@@ -19,9 +19,9 @@ export async function getBetsDB(): Promise<Bet[]> {
  * @returns {Promise<Bet>} - The created bet.
  */
 export async function createBetDB(
-  betData: Omit<Bet, 'id' | 'netResult' | 'createdAt' | 'updatedAt'>,
+  betData: Omit<Bet, 'id' | 'netResult' | 'createdAt' | 'updatedAt' | 'gain'>,
 ) {
-  const response = await fetch('http://localhost:3001/bets/new', {
+  const res = await fetch('http://localhost:3001/bets/new', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -29,21 +29,47 @@ export async function createBetDB(
     body: JSON.stringify(betData),
   });
 
-  if (!response.ok) {
+  if (!res.ok) {
     throw new Error('Failed to create bet');
   }
 
-  return response.json();
+  return res.json();
 }
 
+/**
+ * Delete a bet by its ID.
+ * @param {string} id - The ID of the bet to delete.
+ * @returns {Promise<{ message: string, deleted: boolean }>} - The response message and deletion status.
+ * @throws {Error} - If the deletion request fails.
+ */
 export async function deleteBetDB(id: string) {
-  const response = await fetch(`http://localhost:3001/bets/${id}/delete`, {
+  const res = await fetch(`http://localhost:3001/bets/${id}/delete`, {
     method: 'DELETE',
   });
 
-  if (!response.ok) {
+  if (!res.ok) {
     throw new Error('Failed to delete bet');
   }
 
-  return response.json();
+  return res.json();
+}
+
+/**
+ * Update an existing bet by its ID.
+ * @param {string} id - The ID of the bet to update.
+ * @param {Partial<Bet>} updatedData - The fields to update on the bet.
+ * @returns {Promise<Bet>} - The updated bet.
+ * @throws {Error} - If the update request fails.
+ */
+export async function updateBetDB(id: string, updatedData: Partial<Bet>) {}
+
+export async function getBetByIdDB(id: string): Promise<Bet> {
+  const response = await fetch(`http://localhost:3001/bets/${id}`);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch bet ${id}`);
+  }
+
+  const res = await response.json();
+  return res.bet;
 }

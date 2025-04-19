@@ -1,5 +1,5 @@
-import { expect, describe, it } from 'vitest';
-import { isWithdrawalValid } from './bankroll.service';
+import { describe, expect, it } from 'vitest';
+import { isWithdrawalValid } from './bankroll.services';
 
 describe('isWithdrawalValid', () => {
   it('should return true when withdrawal is valid', () => {

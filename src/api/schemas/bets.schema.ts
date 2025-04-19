@@ -19,7 +19,15 @@ export const betSchema = z.object({
   legs: z.array(legSchema).min(1),
 });
 
+export const getBetSchemaParams = z.object({
+  id: z.string().uuid(),
+});
+
 export const deleteBetSchema = z.object({
+  id: z.string().uuid(),
+});
+
+export const updateBetSchemaParams = z.object({
   id: z.string().uuid(),
 });
 

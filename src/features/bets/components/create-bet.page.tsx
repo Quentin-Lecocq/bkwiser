@@ -1,15 +1,6 @@
-import { useState } from 'react';
-import { BetType } from '../bets.types';
-import ComboBetForm from './combo-bet-form';
-import SingleBetForm from './single-bet-form';
+import BetForm from './bet.form';
 
 const CreateBetPage = () => {
-  const [betType, setBetType] = useState<BetType>('single');
-
-  function handleFormTypeChange(type: BetType) {
-    setBetType(type);
-  }
-
   return (
     <main>
       <h3
@@ -22,30 +13,7 @@ const CreateBetPage = () => {
       >
         Create Bet
       </h3>
-      <form>
-        <label>
-          <input
-            type="radio"
-            name="betType"
-            value="single"
-            checked={betType === 'single'}
-            onChange={() => handleFormTypeChange('single')}
-          />
-          Single Bet
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="betType"
-            value="multiple"
-            checked={betType === 'combo'}
-            onChange={() => handleFormTypeChange('combo')}
-          />
-          Multiple Bet
-        </label>
-      </form>
-      {betType === 'single' && <SingleBetForm />}
-      {betType === 'combo' && <ComboBetForm />}
+      <BetForm />
     </main>
   );
 };

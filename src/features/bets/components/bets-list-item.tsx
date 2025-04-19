@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import { useDeleteBetMutation } from '../bets.mutations';
 import { Bet } from '../bets.types';
 
@@ -8,12 +9,6 @@ interface BetListItemProps {
 const BetsListItem = ({ bet }: BetListItemProps) => {
   const { mutate: deleteBet } = useDeleteBetMutation();
   const { id, date, stake, odds, type, outcome, legs, gain, profit } = bet;
-
-  function handleDeleteBet(id: string) {
-    if (confirm('are u sure?')) {
-      deleteBet({ id });
-    }
-  }
 
   return (
     <li style={{ marginBottom: '1rem' }}>
@@ -27,7 +22,15 @@ const BetsListItem = ({ bet }: BetListItemProps) => {
           </li>
         ))}
       </ul>
-      <button onClick={() => handleDeleteBet(id)}>delete</button>
+      <button onClick={() => deleteBet({ id })}>delete</button>
+      <Link
+        to="/bets/$betId"
+        params={{
+          betId: id,
+        }}
+      >
+        <button>edit</button>
+      </Link>
     </li>
   );
 };
