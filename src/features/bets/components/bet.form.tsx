@@ -1,57 +1,72 @@
 import { useForm } from '@tanstack/react-form';
+import { useNavigate } from '@tanstack/react-router';
 import { FC, FormEvent, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getDefaultBetOutcome, outcomeOptions } from '../bets.constants';
-import { useCreateBetMutation } from '../bets.mutations';
-import { BetFormValues, BetType, Outcome } from '../bets.types';
+import { useCreateBetMutation, useUpdateBetMutation } from '../bets.mutations';
+import { transformBetToFormValues } from '../bets.services';
+import { Bet, BetType, Outcome } from '../bets.types';
 
 interface BetFormProps {
-  initialValues?: BetFormValues;
-  betId?: string;
   mode?: 'create' | 'edit';
+  bet?: Bet;
 }
 
-const BetForm: FC<BetFormProps> = ({ initialValues, betId, mode }) => {
+const BetForm: FC<BetFormProps> = ({ mode, bet }) => {
   const [betType, setBetType] = useState<BetType>('single');
+  const navigate = useNavigate();
   const { mutate: createBet } = useCreateBetMutation();
+  const { mutate: updateBet } = useUpdateBetMutation();
 
   const form = useForm({
-    defaultValues: initialValues ?? {
-      stake: 0,
-      type: 'single' as BetType,
-      date: new Date().toISOString().split('T')[0],
-      outcome: getDefaultBetOutcome(),
-      bookmaker: '',
-      legs: [
-        {
-          id: uuidv4(),
-          label: '',
-          odds: 1,
+    defaultValues: bet
+      ? transformBetToFormValues(bet)
+      : {
+          stake: 0,
+          type: 'single' as BetType,
+          date: new Date().toISOString().split('T')[0],
           outcome: getDefaultBetOutcome(),
+          bookmaker: '',
+          legs: [
+            {
+              id: uuidv4(),
+              label: '',
+              odds: 1,
+              outcome: getDefaultBetOutcome(),
+            },
+          ],
         },
-      ],
-    },
     onSubmit: async ({ value }) => {
       const totalOdds = value.legs.reduce((acc, leg) => acc * leg.odds, 1);
 
       const payload = {
-        id: mode === 'edit' && betId ? betId : uuidv4(),
+        id: mode === 'edit' && bet?.id ? bet.id : uuidv4(),
         ...value,
         odds: Number(totalOdds.toFixed(2)),
       };
 
-      if (mode === 'edit') {
-        // await updateBetDB({bet: payload})
+      if (mode === 'edit' && bet?.id) {
+        await updateBet({
+          id: bet.id,
+          originalBet: bet,
+          updatedValues: payload,
+        });
+        navigate({ to: '/bets' });
       } else {
-        await createBet({ bet: payload });
+        await createBet({
+          bet: payload,
+        });
       }
 
-      createBet({ bet: payload });
       form.reset();
     },
   });
 
   useEffect(() => {
+    if (mode === 'edit') {
+      return;
+    }
+
     if (betType === 'single' && form.state.values.legs.length > 1) {
       form.setFieldValue('legs', [form.state.values.legs[0]]);
     }
@@ -225,9 +240,13 @@ const BetForm: FC<BetFormProps> = ({ initialValues, betId, mode }) => {
         <button type="reset" onClick={() => form.reset()}>
           Reset
         </button>
-        <button type="submit">
-          {betType === 'single' ? 'Create Single Bet' : 'Create Combo Bet'}
-        </button>
+        {mode === 'edit' ? (
+          <button type="submit">Edit Bet</button>
+        ) : (
+          <button type="submit">
+            {betType === 'single' ? 'Create Single Bet' : 'Create Combo Bet'}
+          </button>
+        )}
       </form>
     </>
   );

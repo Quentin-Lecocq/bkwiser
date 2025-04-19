@@ -61,7 +61,28 @@ export async function deleteBetDB(id: string) {
  * @returns {Promise<Bet>} - The updated bet.
  * @throws {Error} - If the update request fails.
  */
-export async function updateBetDB(id: string, updatedData: Partial<Bet>) {}
+export async function updateBetDB(
+  id: string,
+  updatedData: Omit<
+    Bet,
+    'id' | 'netResult' | 'createdAt' | 'updatedAt' | 'gain'
+  >,
+): Promise<Bet> {
+  const response = await fetch(`http://localhost:3001/bets/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updatedData),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update bet');
+  }
+
+  const result = await response.json();
+  return result.bet;
+}
 
 export async function getBetByIdDB(id: string): Promise<Bet> {
   const response = await fetch(`http://localhost:3001/bets/${id}`);
@@ -71,5 +92,5 @@ export async function getBetByIdDB(id: string): Promise<Bet> {
   }
 
   const res = await response.json();
-  return res.bet;
+  return res.data;
 }

@@ -45,7 +45,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 
   res.status(200).json({
     message: 'Bet fetched successfully',
-    data,
+    data: bet,
   });
 });
 
@@ -142,7 +142,27 @@ router.patch('/:id', async (req: Request, res: Response) => {
     return;
   }
 
-  console.log(result.data);
+  const data = await syncDb();
+  const index = data.bets.findIndex((b: Bet) => b.id === result.data.id);
+
+  if (index === -1) {
+    res.status(404).json({ message: 'Bet not found' });
+    return;
+  }
+
+  const updatedBet = {
+    ...data.bets[index],
+    ...result.data,
+    updatedAt: new Date(),
+  };
+
+  data.bets[index] = updatedBet;
+  await dbInstance.write();
+
+  res.status(200).json({
+    message: 'Bet updated successfully',
+    bet: updatedBet,
+  });
 });
 
 export default router;
