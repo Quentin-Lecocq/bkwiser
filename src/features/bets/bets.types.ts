@@ -29,7 +29,6 @@ export interface BetFormValues {
   stake: number;
   type: BetType;
   date: string;
-  odds: number;
   outcome: Outcome;
   bookmaker?: string;
   legs: BetLeg[];

@@ -1,16 +1,22 @@
 import { useForm } from '@tanstack/react-form';
-import { FormEvent, useEffect, useState } from 'react';
+import { FC, FormEvent, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getDefaultBetOutcome, outcomeOptions } from '../bets.constants';
 import { useCreateBetMutation } from '../bets.mutations';
-import { BetType, Outcome } from '../bets.types';
+import { BetFormValues, BetType, Outcome } from '../bets.types';
 
-const BetForm = () => {
+interface BetFormProps {
+  initialValues?: BetFormValues;
+  betId?: string;
+  mode?: 'create' | 'edit';
+}
+
+const BetForm: FC<BetFormProps> = ({ initialValues, betId, mode }) => {
   const [betType, setBetType] = useState<BetType>('single');
   const { mutate: createBet } = useCreateBetMutation();
 
   const form = useForm({
-    defaultValues: {
+    defaultValues: initialValues ?? {
       stake: 0,
       type: 'single' as BetType,
       date: new Date().toISOString().split('T')[0],
@@ -29,12 +35,17 @@ const BetForm = () => {
       const totalOdds = value.legs.reduce((acc, leg) => acc * leg.odds, 1);
 
       const payload = {
-        id: uuidv4(),
+        id: mode === 'edit' && betId ? betId : uuidv4(),
         ...value,
         odds: Number(totalOdds.toFixed(2)),
       };
 
-      console.log({ payload });
+      if (mode === 'edit') {
+        // await updateBetDB({bet: payload})
+      } else {
+        await createBet({ bet: payload });
+      }
+
       createBet({ bet: payload });
       form.reset();
     },

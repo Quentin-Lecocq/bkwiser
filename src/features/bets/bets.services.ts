@@ -37,16 +37,18 @@ export function computeGainAndProfit(
   };
 }
 
-export function tansformBetToFormValue(bet: Bet): BetFormValues {
-  const leg = bet.legs[0];
-
+export function transformBetToFormValues(bet: Bet): BetFormValues {
   return {
     stake: bet.stake,
     type: bet.type,
-    date: bet.date.toString(),
+    date: new Date(bet.date).toISOString().split('T')[0],
     outcome: bet.outcome,
     bookmaker: bet.bookmaker ?? '',
-    label: leg.label,
-    odds: leg.odds,
+    legs: bet.legs.map((leg) => ({
+      id: leg.id,
+      label: leg.label,
+      odds: leg.odds,
+      outcome: leg.outcome,
+    })),
   };
 }
